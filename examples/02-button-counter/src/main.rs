@@ -65,7 +65,7 @@ impl Person {
         cx.notify();
     }
 
-    fn render_increment_button(&self, cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render_like_button(&self, cx: &mut ViewContext<Self>) -> impl IntoElement {
         div()
             .flex()
             .text_xl()
@@ -93,7 +93,7 @@ impl Render for Person {
             .gap_2()
             .child(self.render_greeting())
             .child(self.render_likes())
-            .child(self.render_increment_button(cx))
+            .child(self.render_like_button(cx))
     }
 }
 
