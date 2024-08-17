@@ -35,7 +35,7 @@ struct Person {
 }
 ```
 
-This structure uses `SharedString`, a type provided by the framework, because the structure will be cloned every frame. With this level of cloning, we want to use `SharedString` so we copy a reference to the string (through an underlying `Arc`), rather than the entire string itself. While the simple `String` here would work, it would be less performant, especially for larger strings.
+This structure uses `SharedString`, a type provided by the framework, because the structure will be cloned every frame. With this level of cloning, we want to use `SharedString` so we copy a reference to the string (through an underlying `Arc`), rather than the entire string itself. While the simple `String` here would work, it would be slower. The slow performance with `String`s would be pronounced with larger strings.
 
 For other elements on the stack, like integers, characters, or floats, we can simply use those types since their clone is cheap.
 
@@ -98,3 +98,7 @@ Now that we have a scaffolding, play with the example. Can you change it to your
 ## Conclusion
 
 This is obviously unfinished, but I'll be on the Zed discord getting feedback and continuing on the journey, updating here. I plan on covering basic components (like buttons, labels), docking, input controls, menuing, app icons, CI, and whatever else I need to get myself up to speed with the framework.
+
+## Outstanding questions for my learning
+
+* If the `SharedString` is basically an `Arc<String>`, how does the framework avoid core contention when ensuring atomicity of the reference counter? [This article](https://blocklisted.github.io/blog/arc_str_vs_string_is_it_really_faster/) makes a good case that `Arc<string>` can be slower in some multithreaded scenarios.
