@@ -18,6 +18,8 @@ Since gpui is a part of Zed's codebase, we can borrow their setup instructions t
 
 ## 01 Scaffolding
 
+In this section, we'll create a basic project that shows a window, and get the absolute basics out of the way upon which we can build.
+
 ### View
 
 To scaffold a simple project, first define a `View` struct with data:
@@ -29,7 +31,7 @@ struct PersonView {
 }
 ```
 
-View structs should use `SharedString` for strings, but can use primitives like i32. The memory model of gpui enables sharing, so the data types used in these views, need to play along with that for data types on the heap.
+View structs should use `SharedString` for strings, but can use primitives like `i32`. The memory model of gpui enables sharing, so the data types used in these views need to play along with that for data types on the heap. This is why `String` should be avoided, because it implies a single owner, which the gpui framework does not support.
 
 This struct needs to implement the `Render` trait:
 
@@ -49,7 +51,9 @@ impl Render for PersonView {
 }
 ```
 
-The render method basically translates the state of the view into gpui elements, using a tailwind-inspired API. The `div` here is similar to that in html, but in gpui, `div` is the root container element for everything you will make, including buttons, input fields, and panes. There is not a 1:1 mapping of what is in gpui and what you find in html; you have to build the building blocks yourself.
+The render method translates the state of the view into gpui elements, using a tailwind-inspired API. The `bg`, `size_full`, `justify_center` methods should be intuitive to someone who has spent anytime writing a website with [tailwind](https://tailwindcss.com).
+
+The `div` here is similar to that in html, but in gpui, `div` is the root container element for everything you will make, including buttons, input fields, and panes. There is not a 1:1 mapping of what is in gpui and what you find in html; you will build the building blocks yourself.
 
 ### App
 
@@ -77,8 +81,12 @@ When you're ready to run, run `cargo run` and you get this:
 
 ![Scaffolding Window](/assets/scaffolding.png)
 
-If you're having issues (as I did), refer to the setup documentation above and make sure you run all the commands that are needed.
+If you're having issues (as I did), refer to the setup documentation [above](#Installation) which provides excellent troubleshooting instructions.
+
+### Challenge
+
+Now that we have a scaffolding, play with the example. Can you change it to your name? Can you change the background colors?
 
 ## Conclusion
 
-This is obviously unfinished, but I'll be on the Zed discord getting feedback and continuing on the journey, updating here. Star the repostiory if you're interested!
+This is obviously unfinished, but I'll be on the Zed discord getting feedback and continuing on the journey, updating here. I plan on covering basic components (like buttons, labels), docking, input controls, menuing, app icons, CI, and whatever else I need to get myself up to speed with the framework.
