@@ -95,6 +95,22 @@ If you're having issues (as I did), refer to the setup documentation [above](#In
 
 Now that we have a scaffolding, play with the example. Can you change it to your name? Can you change the background colors?
 
+## Button Counter
+
+Now that we have the basic scaffolding in place, let's add a counter to our example.
+
+### View
+
+We're going to track the likes of our person, so we we'll add this to our view struct:
+
+```rs
+struct Person {
+    first_name: SharedString,
+    last_name: SharedString,
+    likes: u32
+}
+```
+
 ## Conclusion
 
 This is obviously unfinished, but I'll be on the Zed discord getting feedback and continuing on the journey, updating here. I plan on covering basic components (like buttons, labels), docking, input controls, menuing, app icons, CI, and whatever else I need to get myself up to speed with the framework.
