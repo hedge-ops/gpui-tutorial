@@ -22,21 +22,29 @@ In this section, we'll create a basic project that shows a window, and get the a
 
 ### View
 
-To scaffold a simple project, first define a `View` struct with data:
+A view is the simplest element we can use to render UI in gpui. It has two elements: (1) data that we will render, (2) the way we render that data to a UI.
+
+#### Data
+
+The first element, the data is represented in a simple struct:
 
 ```rs
-struct PersonView {
+struct Person {
     first_name: SharedString,
     last_name: SharedString,
 }
 ```
 
-View structs should use `SharedString` for strings, but can use primitives like `i32`. The memory model of gpui enables sharing, so the data types used in these views need to play along with that for data types on the heap. This is why `String` should be avoided, because it implies a single owner, which the gpui framework does not support.
+This structure uses `SharedString`, a type provided by the framework, because the structure will be cloned every frame. With this level of cloning, we want to use `SharedString` so we copy a reference to the string (through an underlying `Arc`), rather than the entire string itself. While the simple `String` here would work, it would be less performant, especially for larger strings.
 
-This struct needs to implement the `Render` trait:
+For other elements on the stack, like integers, characters, or floats, we can simply use those types since their clone is cheap.
+
+#### Rendering
+
+Now that the struct has data defined, to make it a `View`, implement the `Render` trait:
 
 ```rs
-impl Render for PersonView {
+impl Render for Person {
     fn render(&mut self, _cx: &mut ViewContext<Self>) -> impl IntoElement {
         div()
             .flex()
@@ -51,19 +59,19 @@ impl Render for PersonView {
 }
 ```
 
-The render method translates the state of the view into gpui elements, using a tailwind-inspired API. The `bg`, `size_full`, `justify_center` methods should be intuitive to someone who has spent anytime writing a website with [tailwind](https://tailwindcss.com).
+The render method translates the state of the view into gpui elements, using a tailwind-inspired API. The `bg`, `size_full`, `justify_center` methods should be intuitive to someone who has experience with [tailwind](https://tailwindcss.com).
 
-The `div` here is similar to that in html, but in gpui, `div` is the root container element for everything you will make, including buttons, input fields, and panes. There is not a 1:1 mapping of what is in gpui and what you find in html; you will build the building blocks yourself.
+The `div` here is conceptually similar to the div in html, but in gpui, `div` is the root container element for everything you will make, including buttons, input fields, and panels. There is not a 1:1 mapping of what is in gpui and what you find in html; you will build the building blocks yourself.
 
 ### App
 
-Now that we have a view that can render, we are able to initialize our app with it, inside of the main function:
+Now that we have a view that can render, we are able to initialize our app with it, inside of the `main` function:
 
 ```rs
 fn main() {
     App::new().run(|cx: &mut AppContext| {
         cx.open_window(WindowOptions::default(), |cx| {
-            cx.new_view(|_cx| PersonView {
+            cx.new_view(|_cx| Person {
                 first_name: "Mick".into(),
                 last_name: "Jagger".into(),
             })
