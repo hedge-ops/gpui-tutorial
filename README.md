@@ -111,6 +111,14 @@ struct Person {
 }
 ```
 
+Since the `likes` is a simple unsigned number, and the clone on it is cheap since it's on the stack, we'll use the standard data type here.
+
+### Render
+
+Let's render the `likes` count but also the button that will increment it.
+
+(This is where I am in the process, see the example for a full example)
+
 ## Conclusion
 
 This is obviously unfinished, but I'll be on the Zed discord getting feedback and continuing on the journey, updating here. I plan on covering basic components (like buttons, labels), docking, input controls, menuing, app icons, CI, and whatever else I need to get myself up to speed with the framework.
