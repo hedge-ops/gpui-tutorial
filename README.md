@@ -1,8 +1,10 @@
-# gpui
+# gpui Tutorial
 
 ## Summary
 
 [GPUI](https://www.gpui.rs) is a graphics processor accelerated user interface frameowork, created by the makers of [Zed](https://zed.dev) to make the fastest user interface possible, written in Rust. It's currently an [internal project](https://github.com/zed-industries/zed/tree/main/crates/gpui) in the zed project, but will soon be its own crate. It's licensed under the [Apache license](https://github.com/zed-industries/zed/blob/main/crates/gpui/LICENSE-APACHE), which makes it usable by commercial projects.
+
+Currently there is not a lot of documentation, so this tutorial aims to take you through the basics of the framework to get started on your own project.
 
 ## Installation
 
@@ -75,4 +77,8 @@ When you're ready to run, run `cargo run` and you get this:
 
 ![Scaffolding Window](/assets/scaffolding.png)
 
-This is the basic scaffolding for setting up a gpui application.
+If you're having issues (as I did), refer to the setup documentation above and make sure you run all the commands that are needed.
+
+## Conclusion
+
+This is obviously unfinished, but I'll be on the Zed discord getting feedback and continuing on the journey, updating here. Star the repostiory if you're interested!
