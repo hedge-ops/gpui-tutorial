@@ -16,36 +16,23 @@ gpui = { git = "https://github.com/zed-industries/zed" }
 
 Since gpui is a part of Zed's codebase, we can borrow their setup instructions to get set up to do gpui development. Follow the instructions in the `Dependencies` section for [macOS](https://github.com/zed-industries/zed/blob/main/docs/src/development/macos.md#dependencies), [Linux](https://github.com/zed-industries/zed/blob/main/docs/src/development/linux.md#dependencies), or [Windows](https://github.com/zed-industries/zed/blob/main/docs/src/development/windows.md#dependencies). You'll ignore the other sections, but there might be troubleshooting at the bottom that will be helpful.
 
+I used [these resources](resources.md) when learning gpui.
 
+## Sections
 
-## Button Counter
+* [01 Hello World](01-hello-world.md), where we learn the basics of creating a gpui app.
+* [02 Likes Counter](02-likes-counter.md), where we update state when clicking a button.
 
-Now that we have the basic scaffolding in place, let's add a counter to our example.
+To understand the basic terms, see [the dictionary](dictionary.md).
 
-### View
+## Future Topics
 
-We're going to track the likes of our person, so we we'll add this to our view struct:
+* Elements
+* Input Controls
+* Menus
+* App Icon
+* CI
 
-```rs
-struct Person {
-    first_name: SharedString,
-    last_name: SharedString,
-    likes: u32
-}
-```
-
-Since the `likes` is a simple unsigned number, and the clone on it is cheap since it's on the stack, we'll use the standard data type here.
-
-### Render
-
-Let's render the `likes` count but also the button that will increment it.
-
-(This is where I am in the process, see the example for a full example)
-
-## Conclusion
-
-This is obviously unfinished, but I'll be on the Zed discord getting feedback and continuing on the journey, updating here. I plan on covering basic components (like buttons, labels), docking, input controls, menuing, app icons, CI, and whatever else I need to get myself up to speed with the framework.
-
-## Outstanding questions for my learning
+## Outstanding Questions
 
 * If the `SharedString` is basically an `Arc<String>`, how does the framework avoid core contention when ensuring atomicity of the reference counter? [This article](https://blocklisted.github.io/blog/arc_str_vs_string_is_it_really_faster/) makes a good case that `Arc<string>` can be slower in some multithreaded scenarios.
