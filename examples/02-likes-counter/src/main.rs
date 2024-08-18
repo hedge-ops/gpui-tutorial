@@ -1,52 +1,27 @@
 use gpui::*;
 
-struct Theme {
-    background: Rgba,
-    foreground: Rgba,
-    border: Rgba,
-    button_background: Rgba,
-    button_foreground: Rgba,
-    button_hover: Rgba,
-}
-
-impl Default for Theme {
-    fn default() -> Self {
-        Theme {
-            background: rgb(0x1E2027),
-            foreground: rgb(0xE6E6E6),
-            border: rgb(0x2D3039),
-            button_background: rgb(0x3B82F6),
-            button_foreground: rgb(0xFFFFFF), // Pure white
-            button_hover: rgb(0x60A5FA),
-        }
-    }
-}
+const BACKGROUND_COLOR: u32 = 0x1E2027;
+const FOREGROUND_COLOR: u32 = 0xE6E6E6;
+const BORDER_COLOR: u32 = 0x2D3039;
+const BUTTON_BACKGROUND_COLOR: u32 = 0x3B82F6;
+const BUTTON_FOREGROUND_COLOR: u32 = 0xFFFFFF;
+const BUTTON_HOVER_COLOR: u32 = 0x60A5FA;
 
 struct Person {
-    theme: Theme,
     first_name: SharedString,
     last_name: SharedString,
     likes: u16,
 }
 
 impl Person {
-    fn new(first_name: SharedString, last_name: SharedString) -> Self {
-        Person {
-            theme: Theme::default(),
-            first_name,
-            last_name,
-            likes: 0,
-        }
-    }
-
     fn render_greeting(&self) -> impl IntoElement {
         div()
             .flex()
-            .bg(self.theme.background)
+            .bg(rgb(BACKGROUND_COLOR))
             .justify_center()
             .items_center()
             .text_2xl()
-            .text_color(self.theme.foreground)
+            .text_color(rgb(FOREGROUND_COLOR))
             .child(format!("{} {}", &self.first_name, &self.last_name))
     }
 
@@ -56,7 +31,7 @@ impl Person {
             .justify_center()
             .items_center()
             .text_xl()
-            .text_color(self.theme.foreground)
+            .text_color(rgb(FOREGROUND_COLOR))
             .child(format!("Likes: {}", self.likes))
     }
 
@@ -72,10 +47,10 @@ impl Person {
             .border_2()
             .p_2()
             .rounded_lg()
-            .border_color(self.theme.border)
-            .text_color(self.theme.button_foreground)
-            .bg(self.theme.button_background)
-            .hover(|style| style.bg(self.theme.button_hover))
+            .border_color(rgb(BORDER_COLOR))
+            .text_color(rgb(BUTTON_FOREGROUND_COLOR))
+            .bg(rgb(BUTTON_BACKGROUND_COLOR))
+            .hover(|style| style.bg(rgb(BUTTON_HOVER_COLOR)))
             .on_mouse_down(MouseButton::Left, cx.listener(Self::handle_increment))
             .child("Like")
     }
@@ -86,7 +61,7 @@ impl Render for Person {
         div()
             .flex()
             .flex_col()
-            .bg(self.theme.background)
+            .bg(rgb(BACKGROUND_COLOR))
             .size_full()
             .items_center()
             .justify_center()
@@ -100,7 +75,11 @@ impl Render for Person {
 fn main() {
     App::new().run(|cx: &mut AppContext| {
         cx.open_window(WindowOptions::default(), |cx| {
-            cx.new_view(|_cx| Person::new("Mick".into(), "Jagger".into()))
+            cx.new_view(|_cx| Person {
+                first_name: "Mick".into(),
+                last_name: "Jagger".into(),
+                likes: 0,
+            })
         })
         .unwrap();
     });

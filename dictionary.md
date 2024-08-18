@@ -66,3 +66,15 @@ When something needs to respond to [Events](#event) that a [Model](#model) emit,
 ## Notify
 
 The [Context](#context) can publish a notification to all [Subscribers](#subscribe) that [State](#state) has changed, giving them an opportunity to update their [Model](#model) or [View](#view).
+
+## App
+
+An application which has its own [context](#context) which owns all [views](#view) and [models](#model). The root object that is instantiated to start the application.
+
+## Window
+
+A container for [Views](#view) that is presented to the user as a separate graphical entity on their screen. It is managed by the operating system and typically includes standard UI elements like a title bar, minimize/maximize buttons, and close button. A window is owned by the [app](#app).
+
+## Event Loop
+
+The continuous process of handling user input, updating application state, and rendering the user interface. The event loop listens for events (such as mouse clicks or keyboard input), processes them, updates the application state accordingly, and then re-renders the UI to reflect these changes. This cycle repeats continuously while the application is running, ensuring that the UI remains responsive to user interactions and system events.
