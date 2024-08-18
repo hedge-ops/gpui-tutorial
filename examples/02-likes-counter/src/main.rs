@@ -14,7 +14,7 @@ struct Person {
 }
 
 impl Person {
-    fn render_greeting(&self) -> impl IntoElement {
+    fn render_name(&self) -> impl IntoElement {
         div()
             .flex()
             .bg(rgb(BACKGROUND_COLOR))
@@ -66,7 +66,7 @@ impl Render for Person {
             .items_center()
             .justify_center()
             .gap_2()
-            .child(self.render_greeting())
+            .child(self.render_name())
             .child(self.render_likes())
             .child(self.render_like_button(cx))
     }

@@ -163,4 +163,9 @@ In this method, we update the `likes` field of the mutable `Person` [view](dicti
 
 ## Conclusion
 
+When you run `cargo run` you'll see:
+
+![Likes Counter Window](/assets/02-likes-counter.png)
+
+
 There you have it, we were quickly able to pivot our application into something that can track people who like Mick Jagger. In doing so we learned how to create a responsive button that handles a click event.

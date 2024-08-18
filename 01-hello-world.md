@@ -77,7 +77,7 @@ This renders the `Person` in the single [window](dictionary.md#window) of the [a
 
 When you're ready to run, run `cargo run` and you get this:
 
-![Scaffolding Window](/assets/scaffolding.png)
+![Hello World Window](/assets/01-hello-world.png)
 
 If you're having issues (as I did), refer to the setup documentation [above](#installation) which provides excellent troubleshooting instructions.
 

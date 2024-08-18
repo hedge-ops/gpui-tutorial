@@ -28,6 +28,7 @@ To understand the basic terms, see [the dictionary](dictionary.md).
 ## Future Topics
 
 * Elements
+* Shared state with Models
 * Input Controls
 * Menus
 * App Icon
