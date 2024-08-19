@@ -1,3 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["examples/01-hello-world", "examples/02-likes-counter"]
+members = [
+    "examples/01-hello-world",
+    "examples/02-likes-counter",
+    "examples/03-button-element",
+]
