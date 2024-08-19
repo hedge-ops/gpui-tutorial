@@ -8,6 +8,18 @@ If you're ever having problems following along, the full example exists in the `
 
 Instead of saying hi to _everyone_, here we're going to say hello to a famous rockstar, Mick Jagger of the Rolling Stones. The chances he will do this tutorial are near zero, but one can always hope!
 
+## Crate
+
+Create a new crate with `cargo new` and add gpui to your `Cargo.toml` file as a dependency:
+
+To use gpui, add a reference to it in the `Cargo.toml` file:
+
+```toml
+gpui = { git = "https://github.com/zed-industries/zed" }
+```
+
+Run `cargo build` to make sure that you are able to build the dependencies. If you're having problems (as I did), refer back to the [installation instructions](00-prerequisites.md#installation).
+
 ## View
 
 To begin we need to define how we want to present the greeting to Mick Jagger. This is done by defining a [view](dictionary.md#view). A _view_ is the simplest [element](dictionary.md#element) we can use to [render](dictionary.md#render) UI in gpui. It is made up of two parts: (1) data that we will show (i.e., the [state](dictionary.md#state)), (2) the way we present (or [render](dictionary.md#render)) that data to a UI.
