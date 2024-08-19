@@ -16,7 +16,7 @@ To understand the basic terms, see [the dictionary](dictionary.md). To read more
 
 ## Future Topics
 
-* Elements -> make button its own element and compose the three elements
+* Elements -> make button its own element and compose the three elements, add a click handler and disabled property
 * Conditional state -> make it so the button is disabled when reaching 10 likes.
 * Actions and keybindings -> add cmd+l as an action for like, and map the click event to that same action.
 * Menus -> define menus and map those to actions as well. Menu is disabled too when the action is not available.
