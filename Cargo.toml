@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-    "examples/01-hello-world",
-    "examples/02-likes-counter",
-    "examples/03-button-element",
+    "crates/hello_world",
+    "crates/likes_counter",
+    "crates/button_component",
 ]

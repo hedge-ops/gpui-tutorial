@@ -631,10 +631,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
 
 [[package]]
-name = "button-element"
+name = "button_component"
 version = "0.1.0"
 dependencies = [
  "gpui",
+ "gpui_macros",
 ]
 
 [[package]]
@@ -1932,7 +1933,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
 
 [[package]]
-name = "hello-world"
+name = "hello_world"
 version = "0.1.0"
 dependencies = [
  "gpui",
@@ -2358,7 +2359,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "likes-counter"
+name = "likes_counter"
 version = "0.1.0"
 dependencies = [
  "gpui",

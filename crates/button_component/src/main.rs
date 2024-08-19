@@ -8,12 +8,22 @@ const BUTTON_BACKGROUND_COLOR: u32 = 0x3B82F6;
 const BUTTON_FOREGROUND_COLOR: u32 = 0xFFFFFF;
 const BUTTON_HOVER_COLOR: u32 = 0x60A5FA;
 
+#[derive(IntoElement)]
 struct Button {
+    id: ElementId,
     label: SharedString,
     on_click: Option<Box<dyn Fn(&ClickEvent, &mut WindowContext) + 'static>>,
 }
 
 impl Button {
+    fn new(id: impl Into<ElementId>, label: SharedString) -> Self {
+        Button {
+            id: id.into(),
+            label,
+            on_click: None,
+        }
+    }
+
     fn on_click(mut self, handler: impl Fn(&ClickEvent, &mut WindowContext) + 'static) -> Self {
         self.on_click = Some(Box::new(handler));
         self
@@ -21,8 +31,9 @@ impl Button {
 }
 
 impl RenderOnce for Button {
-    fn render(self, cx: &mut WindowContext) -> impl IntoElement {
+    fn render(self, _cx: &mut WindowContext) -> impl IntoElement {
         div()
+            .id(self.id)
             .flex()
             .text_xl()
             .border_2()
@@ -32,15 +43,8 @@ impl RenderOnce for Button {
             .text_color(rgb(BUTTON_FOREGROUND_COLOR))
             .bg(rgb(BUTTON_BACKGROUND_COLOR))
             .hover(|style| style.bg(rgb(BUTTON_HOVER_COLOR)))
-            .when_some(self.on_click, move |this, on_click| {
-                this.on_mouse_down(MouseButton::Left, |event, cx| {
-                    cx.prevent_default();
-                    (on_click)(
-                        click_event
-                        cx,
-                    );
-                });
-                this
+            .when_some(self.on_click, |this, on_click| {
+                this.on_click(move |evt, cx| (on_click)(evt, cx))
             })
             .child(self.label)
     }
@@ -74,24 +78,9 @@ impl Person {
             .child(format!("Likes: {}", self.likes))
     }
 
-    fn handle_increment(&mut self, _event: &MouseDownEvent, cx: &mut ViewContext<Self>) {
+    fn handle_increment(&mut self, _event: &ClickEvent, cx: &mut ViewContext<Self>) {
         self.likes += 1;
         cx.notify();
-    }
-
-    fn render_like_button(&self, cx: &mut ViewContext<Self>) -> impl IntoElement {
-        div()
-            .flex()
-            .text_xl()
-            .border_2()
-            .p_2()
-            .rounded_lg()
-            .border_color(rgb(BORDER_COLOR))
-            .text_color(rgb(BUTTON_FOREGROUND_COLOR))
-            .bg(rgb(BUTTON_BACKGROUND_COLOR))
-            .hover(|style| style.bg(rgb(BUTTON_HOVER_COLOR)))
-            .on_mouse_down(MouseButton::Left, cx.listener(Self::handle_increment))
-            .child("Like")
     }
 }
 
@@ -107,7 +96,10 @@ impl Render for Person {
             .gap_2()
             .child(self.render_name())
             .child(self.render_likes())
-            .child(self.render_like_button(cx))
+            .child(
+                Button::new("like-button", "Like".into())
+                    .on_click(cx.listener(Self::handle_increment)),
+            )
     }
 }
 
