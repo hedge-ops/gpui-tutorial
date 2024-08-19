@@ -27,12 +27,27 @@ To understand the basic terms, see [the dictionary](dictionary.md).
 
 ## Future Topics
 
-* Elements
-* Shared state with Models
-* Input Controls
-* Menus
-* App Icon
-* CI
+* Elements -> make button its own element and compose the three elements
+* Conditional state -> make it so the button is disabled when reaching 10 likes.
+* Actions and keybindings -> add cmd+l as an action for like, and map the click event to that same action.
+* Menus -> define menus and map those to actions as well. Menu is disabled too when the action is not available.
+* App Icon -> add the application icon as an asset so we have a real app.
+* Shared state with Models -> add a dislike button (with cmd+d as keybinding), which is disabled when likes is 0.
+* Icons -> turn like and dislike into icon buttons (introducing the svg element)
+* Input Controls - give the user the opportunity to update the name
+
+### Missing
+
+* lists (and uniform list)
+* notify/observe with `update` from context
+* emit/event
+* async app context
+* testing
+* Window fit & feel -> see positioning, shadow examples
+* Animation -> TBD
+* CI -> build the thing
+* Anchored elements
+
 
 ## Outstanding Questions
 
