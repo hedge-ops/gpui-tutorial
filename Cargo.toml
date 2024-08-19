@@ -3,5 +3,5 @@ resolver = "2"
 members = [
     "crates/hello_world",
     "crates/likes_counter",
-    "crates/button_component",
+    "crates/button_component", "crates/action_keybindings",
 ]
