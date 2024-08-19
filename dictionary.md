@@ -78,3 +78,7 @@ A container for [Views](#view) that is presented to the user as a separate graph
 ## Event Loop
 
 The continuous process of handling user input, updating application state, and rendering the user interface. The event loop listens for events (such as mouse clicks or keyboard input), processes them, updates the application state accordingly, and then re-renders the UI to reflect these changes. This cycle repeats continuously while the application is running, ensuring that the UI remains responsive to user interactions and system events.
+
+## Action
+
+Something that happens in the application with a logical name, that is the basis for keyboard-driven naviggation, menus, and commands. Event handlers can also call actions, so these are the source of doing things in the app.

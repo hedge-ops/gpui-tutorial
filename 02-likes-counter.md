@@ -6,6 +6,8 @@ If you haven't already completed the first tutorial, [start there](01-hello-worl
 
 We've given up on getting Mick Jagger to do this tutorial, but we do want to create an app for his fans to count up how many people like him. This will introduce us to [state](dictionary.md) mutation and interactivity.
 
+If you're ever having trouble with this, a full example exists in `crates/likes_counter`.
+
 ## View
 
 ### State
@@ -167,5 +169,6 @@ When you run `cargo run` you'll see:
 
 ![Likes Counter Window](/assets/02-likes-counter.png)
 
-
 There you have it, we were quickly able to pivot our application into something that can track people who like Mick Jagger. In doing so we learned how to create a responsive button that handles a click event.
+
+Next we will wrap our button functionality into a reusable button component, in [03 Button Component](03-button-component.md).

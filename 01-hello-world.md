@@ -2,7 +2,7 @@
 
 In the first section, we'll create a simple hello world program and go over the basics. This is borrowed heavily from the one on the [gpui site](https://www.gpui.rs).
 
-If you're ever having problems following along, the full example exists in the `examples` folder of this repository.
+If you're ever having problems following along, the full example exists in `creates/hello_world`.
 
 ## Introduction
 
