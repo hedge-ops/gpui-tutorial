@@ -35,9 +35,11 @@ To understand the basic terms, see [the dictionary](dictionary.md).
 * Shared state with Models -> add a dislike button (with cmd+d as keybinding), which is disabled when likes is 0.
 * Icons -> turn like and dislike into icon buttons (introducing the svg element)
 * Input Controls - give the user the opportunity to update the name
+* Avatar -> using the `img` element
 
 ### Missing
 
+* `RenderOnce` vs `Render` - probably a part of the Elemnts tutorial
 * lists (and uniform list)
 * notify/observe with `update` from context
 * emit/event
@@ -51,4 +53,5 @@ To understand the basic terms, see [the dictionary](dictionary.md).
 
 ## Outstanding Questions
 
+* Is render once for sub-elements that are immutable? Asking...
 * If the `SharedString` is basically an `Arc<String>`, how does the framework avoid core contention when ensuring atomicity of the reference counter? [This article](https://blocklisted.github.io/blog/arc_str_vs_string_is_it_really_faster/) makes a good case that `Arc<string>` can be slower in some multithreaded scenarios.
