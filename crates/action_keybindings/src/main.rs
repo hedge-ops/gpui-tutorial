@@ -8,7 +8,7 @@ const BUTTON_BACKGROUND_COLOR: u32 = 0x3B82F6;
 const BUTTON_FOREGROUND_COLOR: u32 = 0xFFFFFF;
 const BUTTON_HOVER_COLOR: u32 = 0x60A5FA;
 
-actions!(gpui, [IncrementLikes]);
+actions!(application, [IncrementLikes]);
 
 #[derive(IntoElement)]
 struct Button {
@@ -80,18 +80,20 @@ impl Person {
             .child(format!("Likes: {}", self.likes))
     }
 
-    fn handle_increment(&mut self, _: &IncrementLikes, cx: &mut ViewContext<Self>) {
-        println!("handling action");
-        self.likes += 1;
-        cx.notify();
-    }
+    // fn handle_increment(&mut self, _: &IncrementLikes, cx: &mut ViewContext<Self>) {
+    //     println!("handling action");
+    //     self.likes += 1;
+    //     cx.notify();
+    // }
 }
 
 impl Render for Person {
     fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
         div()
             .id("person-view")
-            .on_action(cx.listener(Self::handle_increment))
+            .on_action(move |&IncrementLikes, _cx| {
+                eprintln!("hello");
+            })
             .flex()
             .flex_col()
             .bg(rgb(BACKGROUND_COLOR))
@@ -99,6 +101,10 @@ impl Render for Person {
             .items_center()
             .justify_center()
             .gap_2()
+            .on_click(|_, cx| {
+                println!("handling click at the div level");
+                cx.dispatch_action(Box::new(IncrementLikes))
+            })
             .child(self.render_name())
             .child(self.render_likes())
             .child(
