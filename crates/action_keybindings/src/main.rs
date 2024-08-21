@@ -1,6 +1,6 @@
 use gpui::*;
 
-actions!(application, [IncrementLikes, DecrementLikes]);
+actions!(application, [IncrementLikes]);
 
 struct Person {
     likes: u16,
@@ -12,17 +12,12 @@ impl Person {
         self.likes += 1;
         cx.notify();
     }
-
-    fn handle_decrement(&mut self, _: &IncrementLikes, cx: &mut ViewContext<Self>) {
-        println!("decrementing likes");
-        self.likes -= 1;
-        cx.notify();
-    }
 }
 
 impl Render for Person {
     fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
         div()
+            .id("person-view")
             .flex()
             .bg(rgb(0x333333))
             .size_full()
@@ -31,7 +26,6 @@ impl Render for Person {
             .text_2xl()
             .text_color(rgb(0xffffff))
             .on_action(cx.listener(Self::handle_increment))
-            .on_action(cx.listener(Self::handle_decrement))
             .child(format!("Likes: {}", self.likes))
     }
 }
@@ -39,10 +33,7 @@ impl Render for Person {
 fn app_menus() -> Vec<Menu> {
     vec![Menu {
         name: "action_keybindings".into(),
-        items: vec![
-            MenuItem::action("Increment", IncrementLikes),
-            MenuItem::action("Decrement", DecrementLikes),
-        ],
+        items: vec![MenuItem::action("Increment", IncrementLikes)],
     }]
 }
 
