@@ -34,7 +34,7 @@ Here is our parent render:
 
 ```rust
 impl Render for Person {
-    fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .flex_col()
@@ -112,12 +112,17 @@ So with that out of the way, the like button is actually going to be a [div](dic
 impl Person {
     // other render methods omitted
 
-    fn handle_increment(&mut self, _event: &MouseDownEvent, cx: &mut ViewContext<Self>) {
+    fn handle_increment(
+        &mut self,
+        _event: &MouseDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.likes += 1;
         cx.notify();
     }
 
-    fn render_like_button(&self, cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render_like_button(&self, cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .text_xl()
@@ -155,7 +160,12 @@ Now we can hook up our event handler when the mouse left button is clicked:
 The `on_mouse_down` method takes an argument of which mouse button we are tracking, and a listener as the second argument, provided by our [context](dictionary.md#context). The `cx.listener` method takes a function argument `Self::handle_increment` which we define as a defined function:
 
 ```rust
-fn handle_increment(&mut self, _event: &MouseDownEvent, cx: &mut ViewContext<Self>) {
+fn handle_increment(
+    &mut self,
+    _event: &MouseDownEvent,
+    _window: &mut Window,
+    cx: &mut Context<Self>,
+) {
     self.likes += 1;
     cx.notify();
 }

@@ -35,12 +35,17 @@ impl Person {
             .child(format!("Likes: {}", self.likes))
     }
 
-    fn handle_increment(&mut self, _event: &MouseDownEvent, cx: &mut ViewContext<Self>) {
+    fn handle_increment(
+        &mut self,
+        _event: &MouseDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.likes += 1;
         cx.notify();
     }
 
-    fn render_like_button(&self, cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render_like_button(&self, cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .text_xl()
@@ -57,7 +62,7 @@ impl Person {
 }
 
 impl Render for Person {
-    fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .flex_col()
@@ -73,9 +78,9 @@ impl Render for Person {
 }
 
 fn main() {
-    App::new().run(|cx: &mut AppContext| {
-        cx.open_window(WindowOptions::default(), |cx| {
-            cx.new_view(|_cx| Person {
+    Application::new().run(|cx: &mut App| {
+        cx.open_window(WindowOptions::default(), |_, cx| {
+            cx.new(|_| Person {
                 first_name: "Mick".into(),
                 last_name: "Jagger".into(),
                 likes: 0,
