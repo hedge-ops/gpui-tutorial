@@ -10,7 +10,7 @@ Instead of saying hi to _everyone_, here we're going to say hello to a famous ro
 
 ## Crate
 
-Create a new crate with `cargo new` and add gpui to your `Cargo.toml` file as a dependency:
+Create a new crate with `cargo init` and add gpui to your `Cargo.toml` file as a dependency:
 
 To use gpui, add a reference to it in the `Cargo.toml` file:
 
@@ -19,6 +19,14 @@ gpui = { git = "https://github.com/zed-industries/zed" }
 ```
 
 Run `cargo build` to make sure that you are able to build the dependencies. If you're having problems (as I did), refer back to the [installation instructions](00-prerequisites.md#installation).
+
+## Import GPUI
+
+Create a new main.rs file and import gpui:
+
+```rs
+use gpui::*;
+```
 
 ## View
 
@@ -45,7 +53,7 @@ Now that the data, or [state](dictionary.md#state) we want to show is defined, i
 
 ```rs
 impl Render for Person {
-    fn render(&mut self, _cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .bg(rgb(0x333333))
@@ -71,9 +79,9 @@ We do this inside of the `main` function:
 
 ```rs
 fn main() {
-    App::new().run(|cx: &mut AppContext| {
-        cx.open_window(WindowOptions::default(), |cx| {
-            cx.new_view(|_cx| Person {
+    Application::new().run(|cx: &mut App| {
+        cx.open_window(WindowOptions::default(), |_, cx| {
+            cx.new(|_| Person {
                 first_name: "Mick".into(),
                 last_name: "Jagger".into(),
             })
