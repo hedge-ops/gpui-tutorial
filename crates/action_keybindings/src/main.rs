@@ -7,7 +7,7 @@ struct Person {
 }
 
 impl Person {
-    fn handle_increment(&mut self, _: &IncrementLikes, cx: &mut ViewContext<Self>) {
+    fn handle_increment(&mut self, _: &IncrementLikes, _window: &mut Window, cx: &mut Context<Self>) {
         println!("incrementing likes");
         self.likes += 1;
         cx.notify();
@@ -15,7 +15,7 @@ impl Person {
 }
 
 impl Render for Person {
-    fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .id("person-view")
             .flex()
@@ -38,11 +38,11 @@ fn app_menus() -> Vec<Menu> {
 }
 
 fn main() {
-    App::new().run(|cx: &mut AppContext| {
-        cx.open_window(WindowOptions::default(), |cx| {
-            cx.activate(true);
+    Application::new().run(|cx: &mut App| {
+        cx.open_window(WindowOptions::default(), |window, cx| {
+            window.activate_window();
             cx.set_menus(app_menus());
-            cx.new_view(|_cx| Person { likes: 0 })
+            cx.new(|_| Person { likes: 0 })
         })
         .unwrap();
     });

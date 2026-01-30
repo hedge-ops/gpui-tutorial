@@ -116,7 +116,7 @@ fn main() {
                 last_name: "Jagger".into(),
                 likes: 0,
             })
-        });
+        })
         .unwrap();
     });
 }

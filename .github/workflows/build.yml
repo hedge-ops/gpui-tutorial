@@ -13,14 +13,11 @@ concurrency:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-14  # macOS 14 has Metal Toolchain bundled with Xcode
     timeout-minutes: 15  # Kill job if it runs too long
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Metal Toolchain
-        run: xcodebuild -downloadComponent MetalToolchain
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
