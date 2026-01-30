@@ -27,7 +27,7 @@ With that in place, we'll define the [state](dictionary.md#state) of our button:
 struct Button {
     id: ElementId,
     label: SharedString,
-    on_click: Option<Box<dyn Fn(&ClickEvent, &mut WindowContext) + 'static>>,
+    on_click: Option<Box<dyn Fn(&ClickEvent, &mut Window, &mut App) + 'static>>,
 }
 ```
 
@@ -35,7 +35,7 @@ This struct has a few new concepts we haven't yet encountered:
 
 1. `#[derive(IntoElement)]` - remember that all `render` functions return `impl IntoElement`, and all `child` calls take an `impl IntoElement` parameter. So we need a way for our button to conform to that, and the `gpui_macro` crate gives us this nice shorcut way of doing so.
 2. `id: ElementId` - since our button is tracking events across frames, we need to identify it so the system can turn a `MouseUp` event and `MouseDown` event into a `ClickEvent`. This `id` field gives us the ability to identify the element.
-3. `on_click: Option<Box<dyn Fn(&ClickEvent, &mut WindowContext) + 'static>>` - wow this is a mouthful! In short the `Option<T>` makes the `on_click` optional, and its value is a pointer (`Box`) to a function (`Fn`) that takes `ClickEvent` and `WindowContext` arguments. And finally the `+ 'static` part says that this handler can be used for the duration of the application, and won't bring in anything non-static to its scope. We can guarantee this because the `App` (and therefore `AppContext` owns all of these elements, and keeps them alive for the duration of the program).
+3. `on_click: Option<Box<dyn Fn(&ClickEvent, &mut Window, &mut App) + 'static>>` - wow this is a mouthful! In short the `Option<T>` makes the `on_click` optional, and its value is a pointer (`Box`) to a function (`Fn`) that takes `ClickEvent`, `Window` and `App` arguments. And finally the `+ 'static` part says that this handler can be used for the duration of the application, and won't bring in anything non-static to its scope. We can guarantee this because the `Application` owns the `App` context, which in turn owns all of these elements and keeps them alive for the duration of the program.
 
 Note that since `#[derive(IntoElement)]` expects for `RenderOnce` to be implemented, the solution does not yet compile, but be assured that we are quickly getting there.
 
@@ -53,7 +53,7 @@ impl Button {
         }
     }
 
-    fn on_click(mut self, handler: impl Fn(&ClickEvent, &mut WindowContext) + 'static) -> Self {
+    fn on_click(mut self, handler: impl Fn(&ClickEvent, &mut Window, &mut App) + 'static) -> Self {
         self.on_click = Some(Box::new(handler));
         self
     }
@@ -70,7 +70,7 @@ It's time to implement `RenderOnce` for our `Button`:
 
 ```rust
 impl RenderOnce for Button {
-    fn render(self, _cx: &mut WindowContext) -> impl IntoElement {
+    fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         div()
             .id(self.id)
             .flex()
@@ -83,11 +83,12 @@ impl RenderOnce for Button {
             .bg(rgb(BUTTON_BACKGROUND_COLOR))
             .hover(|style| style.bg(rgb(BUTTON_HOVER_COLOR)))
             .when_some(self.on_click, |this, on_click| {
-                this.on_click(move |evt, cx| (on_click)(evt, cx))
+                this.on_click(move |evt, window, cx| (on_click)(evt, window, cx))
             })
             .child(self.label)
     }
 }
+
 ```
 
 Let's go over some new concepts:
@@ -95,7 +96,7 @@ Let's go over some new concepts:
 1. `RenderOnce` this means that we are not going to change any state related to this button, so gpui will call this every time it rerenders the parent window. Not having to keep track of this UI makes the framework have less memory and is easier to reason about. So the rule is: if you have a component that does not change, use `RenderOnce`. With this in place, our `#[derive(IntoElement)]` will now work, because it wraps the `RenderOnce` into something that will turn into an element the framework can use.
 2. `id(self.id)` this assigns our button a unique id so the framework can track events for it, turning a mouse down, followed by a mouse up into a click event. Without this definition, we would not be able to define the `on_click` below.
 3. `when_some(self.on_click, |this, on_click|)` this is syntatic sugar that basically says, if on_click has a value, call this function. Remember, we made `on_click` optional.
-4. `this.on_click(move |evt, cx| (on_click)(evt, cx))` this is inside the `when_some` block above, this defines an `on_click` for the parent `Div` element (remember this is what we called `when_some` on), and when that is fired, calls the `Button`'s `on_click` function.
+4. `this.on_click(move |evt, window, cx| (on_click)(evt, window, cx))` this is inside the `when_some` block above, this defines an `on_click` for the parent `Div` element (remember this is what we called `when_some` on), and when that is fired, calls the `Button`'s `on_click` function.
 
 This is all a lot and definitely caused me to stare at it quite a bit to understand what was going on. But at the end, the implementation was simple: we have an optional `on_click` handler to a button with an `id` that is passed the click event of its child `Div` element. And since the `Button` implements the `RenderOnce` trait, it will be called on every frame.
 
@@ -110,10 +111,15 @@ Now in our parent `Person` [view](dictionary.md#view) we can use our `Button` co
 )
 ```
 
-Here a `Button` with an id of `like-button` is created, with the text of `Like`. We define an `on_click` method, to call `handle_increment`. Since this is a click event instead of a mouse up event, we slightly change the signature of the `handle_increment` method:
+Here a `Button` with an id of `like-button` is created, with the text of `Like`. We define an `on_click` method, to call `handle_increment`. Since this is a click event instead of a mouse up event, we slightly change the signature of the `handle_increment` method, replacing `&MouseDownEvent` with `&ClickEvent`:
 
 ```rust
-fn handle_increment(&mut self, _event: &ClickEvent, cx: &mut ViewContext<Self>) {
+fn handle_increment(
+    &mut self,
+    _event: &ClickEvent,
+    _window: &mut Window,
+    cx: &mut Context<Self>,
+) {
     self.likes += 1;
     cx.notify();
 }

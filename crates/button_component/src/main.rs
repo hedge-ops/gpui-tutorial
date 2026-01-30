@@ -1,5 +1,5 @@
 use gpui::*;
-use prelude::FluentBuilder;
+use gpui::prelude::*;
 
 const BACKGROUND_COLOR: u32 = 0x1E2027;
 const FOREGROUND_COLOR: u32 = 0xE6E6E6;
@@ -12,7 +12,7 @@ const BUTTON_HOVER_COLOR: u32 = 0x60A5FA;
 struct Button {
     id: ElementId,
     label: SharedString,
-    on_click: Option<Box<dyn Fn(&ClickEvent, &mut WindowContext) + 'static>>,
+    on_click: Option<Box<dyn Fn(&ClickEvent, &mut Window, &mut App) + 'static>>,
 }
 
 impl Button {
@@ -24,14 +24,14 @@ impl Button {
         }
     }
 
-    fn on_click(mut self, handler: impl Fn(&ClickEvent, &mut WindowContext) + 'static) -> Self {
+    fn on_click(mut self, handler: impl Fn(&ClickEvent, &mut Window, &mut App) + 'static) -> Self {
         self.on_click = Some(Box::new(handler));
         self
     }
 }
 
 impl RenderOnce for Button {
-    fn render(self, _cx: &mut WindowContext) -> impl IntoElement {
+    fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         div()
             .id(self.id)
             .flex()
@@ -44,7 +44,7 @@ impl RenderOnce for Button {
             .bg(rgb(BUTTON_BACKGROUND_COLOR))
             .hover(|style| style.bg(rgb(BUTTON_HOVER_COLOR)))
             .when_some(self.on_click, |this, on_click| {
-                this.on_click(move |evt, cx| (on_click)(evt, cx))
+                this.on_click(move |evt, window, cx| (on_click)(evt, window, cx))
             })
             .child(self.label)
     }
@@ -78,14 +78,19 @@ impl Person {
             .child(format!("Likes: {}", self.likes))
     }
 
-    fn handle_increment(&mut self, _event: &ClickEvent, cx: &mut ViewContext<Self>) {
+    fn handle_increment(
+        &mut self,
+        _event: &ClickEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.likes += 1;
         cx.notify();
     }
 }
 
 impl Render for Person {
-    fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
+    fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .flex_col()
@@ -104,14 +109,14 @@ impl Render for Person {
 }
 
 fn main() {
-    App::new().run(|cx: &mut AppContext| {
-        cx.open_window(WindowOptions::default(), |cx| {
-            cx.new_view(|_cx| Person {
+    Application::new().run(|cx: &mut App| {
+        cx.open_window(WindowOptions::default(), |_, cx| {
+            cx.new(|_| Person {
                 first_name: "Mick".into(),
                 last_name: "Jagger".into(),
                 likes: 0,
             })
-        })
+        });
         .unwrap();
     });
 }
