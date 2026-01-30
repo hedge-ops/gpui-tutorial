@@ -3,5 +3,11 @@ resolver = "2"
 members = [
     "crates/hello_world",
     "crates/likes_counter",
-    "crates/button_component", "crates/action_keybindings",
+    "crates/button_component",
+    "crates/action_keybindings",
 ]
+
+[workspace.dependencies]
+gpui = { version = "0.2.2", default-features = false }
+gpui-macros = "0.2.2"
+gpui_macros = { package = "gpui-macros", version = "0.2.2" }

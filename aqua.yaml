@@ -1,0 +1,17 @@
+# aqua - CLI tool version manager
+# https://aquaproj.github.io/
+#
+# Install: curl -sSfL https://raw.githubusercontent.com/aquaproj/aqua-installer/main/aqua-installer | bash
+# Usage: aqua install
+
+---
+checksum:
+  enabled: true
+  require_checksum: true
+
+registries:
+  - type: standard
+    ref: v4.458.0  # https://github.com/aquaproj/aqua-registry/releases
+
+packages:
+  - name: casey/just@1.46.0
