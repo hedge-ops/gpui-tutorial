@@ -2,9 +2,16 @@
 
 ## Summary
 
-[GPUI](https://www.gpui.rs) is a graphics processor accelerated user interface frameowork, created by the makers of [Zed](https://zed.dev) to make the fastest user interface possible, written in Rust. It's currently an [internal project](https://github.com/zed-industries/zed/tree/main/crates/gpui) in the zed project, but will soon be its own crate. It's licensed under the [Apache license](https://github.com/zed-industries/zed/blob/main/crates/gpui/LICENSE-APACHE), which makes it usable by commercial projects.
+[GPUI](https://www.gpui.rs) is a GPU-accelerated UI framework created by the makers of [Zed](https://zed.dev), written in Rust. It's available on [crates.io](https://crates.io/crates/gpui) and licensed under the [Apache license](https://github.com/zed-industries/zed/blob/main/crates/gpui/LICENSE-APACHE), making it usable by commercial projects.
 
-Currently there is not a lot of documentation, so this tutorial aims to take you through the basics of the framework to get started on your own project.
+This tutorial uses gpui 0.2.2. To add it to your project:
+
+```toml
+[dependencies]
+gpui = "0.2.2"
+```
+
+Currently there is not a lot of official documentation, so this tutorial aims to take you through the basics of the framework to get started on your own project.
 
 ## Sections
 
@@ -36,7 +43,6 @@ To understand the basic terms, see [the dictionary](dictionary.md). To read more
 * testing
 * Window fit & feel -> see positioning, shadow examples
 * Animation -> TBD
-* CI -> build the thing
 * Anchored elements
 
 
