@@ -19,6 +19,7 @@ Currently there is not a lot of official documentation, so this tutorial aims to
 * [01 Hello World](01-hello-world.md), where we learn the basics of creating a gpui app.
 * [02 Likes Counter](02-likes-counter.md), where we update state when clicking a button.
 * [03 Button Component](03-button-component.md), where we refactor the button into a reusable component.
+* [04 Action Keybindings](04-action-keybindings.md), where we add keyboard shortcuts using actions. (WIP)
 
 To understand the basic terms, see [the dictionary](dictionary.md). To read more on how I learned the framework, see [resources](resources.md).
 
